@@ -1,0 +1,76 @@
+/*
+ * Practica1.cpp
+ *
+ *  Created on: Jan 24, 2018
+ *      Author: marga
+ */
+#include<iostream>
+#include <cstring>
+#include<stdio.h>
+#include<list>
+#include<sstream>
+using namespace std;
+
+
+bool search(list<string> l, string w){
+	list<string> ::iterator ite;
+	bool r;
+	for (ite = l.begin(); ite !=l.end(); ite++){
+		size_t found = (w.find(*ite));
+		if(found == 0 ){
+//			cout<< found << ", " << *ite<< endl;
+			int nsize = static_cast<int>((*ite).length());
+			string nw = w.substr(nsize, w.length()-1);
+			if (nw.length() > 0){
+				r = search(l, nw);
+				cout<<nw<< ", " << r<<endl;;
+			}
+			else{
+				return true;
+			}
+
+		}
+
+	}
+
+	return r;
+}
+
+int main(){
+	list<string> lang;
+	string alpha;
+	string sigma;
+	char* word;
+	string current;
+	string w;
+	getline(cin, alpha);
+	getline(cin, w);
+	char *words = const_cast<char*>(alpha.c_str());    //convierte el string a char*
+	//cout<<words;
+
+	list<string> ::iterator ite = lang.begin();		//se crea el iterador de la lista y apunta al inicio
+
+	 word = strtok (words," ,.-");		//apuntamos al inicio de words y lo convierte a char*
+//	 cout << word <<endl;
+//	 cout << "Dentro del while queda asi" <<endl;
+	  while (word != NULL)				//mientras aun se obtengan elementos del string
+	  {
+		lang.push_back(string(word));	//convierte nuevamente a string y lo agrega a la lista
+	  //  cout << word <<endl;
+	    word = strtok (NULL, " ,.-");		//apunta a donde termino el token anterior
+	  }
+
+
+	  bool res = search(lang, w);
+	  if (res == 0 ){
+		  cout<< "La cadena " << w << " no es valida en " <<alpha <<endl;
+	  }
+
+	  else{
+		  cout<< "La cadena " << w << " es valida en " <<alpha <<endl;
+	  }
+
+
+
+
+}
